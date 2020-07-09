@@ -16,13 +16,13 @@ import { Loading } from '../providers/loading/loading';
           <ion-list-header>
 
               <ion-toolbar>
-                <ion-buttons left [mode]="componentMode">
+                <ion-buttons left>
                   <button ion-button icon-only *ngIf="slide.parentSlide" (click)="slideTo(slide.parentSlide?.slideIndex)">
                     <ion-icon name="arrow-back"></ion-icon>
                   </button>
                 </ion-buttons>
-                <ion-title [mode]="componentMode">{{ slide.parentSlideItem ? slide.parentSlideItem?.name : selectDialogTitle }}</ion-title>
-                <ion-buttons right [mode]="componentMode">
+                <ion-title>{{ slide.parentSlideItem ? slide.parentSlideItem?.name : selectDialogTitle }}</ion-title>
+                <ion-buttons right>
                   <button ion-button icon-only (click)="close()">
                     <ion-icon name="close"></ion-icon>
                   </button>
@@ -37,9 +37,9 @@ import { Loading } from '../providers/loading/loading';
               {{ slide.parentSlideItem?.name }}
             </ion-item>
 
-            <ion-item [mode]="componentMode" [ngClass]="{ 'selected': item.selected }" *ngFor="let item of slide.items" (click)="handleItemClick(item)">
+            <ion-item  [ngClass]="{ 'selected': item.selected }" *ngFor="let item of slide.items" (click)="handleItemClick(item)">
               {{ item.name }}
-              <ion-icon [mode]="componentMode" *ngIf="item.nextSlideIndex !== null" item-right name="arrow-forward"></ion-icon>
+              <ion-icon  *ngIf="item.nextSlideIndex !== null" item-right name="arrow-forward"></ion-icon>
             </ion-item>
 
           </ion-list>
@@ -108,7 +108,6 @@ export class MultiLevelSelectDialogComponent {
   public slides: Slide[];
 
   public selectDialogTitle: string;
-  public componentMode: string;
 
   public selectedItemId: number;
   public lookups: LookUpItem[];
@@ -122,7 +121,6 @@ export class MultiLevelSelectDialogComponent {
     this.lookups = null;
     this.allowParent = null;
     this.selectDialogTitle = null;
-    this.componentMode = null;
   }
   public ionViewDidLoad() {
     // Need to show a progress UI since it might take 1-2 secs to init the dialog if the lookups contains many items

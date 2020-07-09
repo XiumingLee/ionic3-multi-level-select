@@ -13,7 +13,7 @@ import { MultiLevelSelectDialogComponent } from './multi-level-select-dialog';
   template: `
     <ion-toolbar (click)="open()">
       <ion-title [ngClass]="{ 'multi-level-select-placeholder': !selectedItem }">{{ selectedItem ? selectedItem?.name : selectPlaceholder }}</ion-title>
-      <ion-buttons right [mode]="componentMode">
+      <ion-buttons right>
         <button *ngIf="selectedItem" ion-button icon-only (click)="reset($event)">
           <i class="fa fa-times" aria-hidden="true"></i>
         </button>
@@ -67,7 +67,6 @@ export class MultiLevelSelectComponent implements ControlValueAccessor {
   public selectedItem: NamedIdentity;
   @Input() public selectPlaceholder: 'Please Select';  // 选择框内容
   @Input() public selectDialogTitle: 'Please Select';  // 选择弹窗标题内容
-  @Input() public componentMode: 'md';  // 平台模式
 
   @Input() public lookups: LookUpItem[];
   @Input() public allowParent: boolean;
@@ -94,7 +93,6 @@ export class MultiLevelSelectComponent implements ControlValueAccessor {
       lookups: this.lookups,
       allowParent: this.allowParent,
       selectDialogTitle: this.selectDialogTitle,
-      componentMode: this.componentMode
     });
     multiLevelSelectDialogComponent.onDidDismiss((selectedItem: NamedIdentity) => {
       if (selectedItem) {
