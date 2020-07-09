@@ -1,5 +1,11 @@
 # Ionic3 Multi Level Select
 
+> 基于：https://github.com/ryaa/ionic3-multi-level-select做了些修改。
+>
+> - 可以自定义选择框`Placeholder`内容和弹出框的标题内容。通过`selectPlaceholder`和`selectDialogTitle`属性。
+> - 可以通过`componentMode`属性自定义`mode`模式`ios or android`。
+> - 修改了选择后返回数据的内容。
+
 ## Description
 Ionic multi level select components allows displaying hierarchical data in a mobile friendly manner. The component shows only one level at a time and navigates to a child level when the appropriate node selected.
 

@@ -16,13 +16,13 @@ import { Loading } from '../providers/loading/loading';
           <ion-list-header>
 
               <ion-toolbar>
-                <ion-buttons left>
+                <ion-buttons left [mode]="componentMode">
                   <button ion-button icon-only *ngIf="slide.parentSlide" (click)="slideTo(slide.parentSlide?.slideIndex)">
                     <ion-icon name="arrow-back"></ion-icon>
                   </button>
                 </ion-buttons>
-                <ion-title>{{ slide.parentSlideItem ? slide.parentSlideItem?.name : "Please Select" }}</ion-title>
-                <ion-buttons right>
+                <ion-title [mode]="componentMode">{{ slide.parentSlideItem ? slide.parentSlideItem?.name : selectDialogTitle }}</ion-title>
+                <ion-buttons right [mode]="componentMode">
                   <button ion-button icon-only (click)="close()">
                     <ion-icon name="close"></ion-icon>
                   </button>
@@ -37,9 +37,9 @@ import { Loading } from '../providers/loading/loading';
               {{ slide.parentSlideItem?.name }}
             </ion-item>
 
-            <ion-item [ngClass]="{ 'selected': item.selected }" *ngFor="let item of slide.items" (click)="handleItemClick(item)">
+            <ion-item [mode]="componentMode" [ngClass]="{ 'selected': item.selected }" *ngFor="let item of slide.items" (click)="handleItemClick(item)">
               {{ item.name }}
-              <ion-icon *ngIf="item.nextSlideIndex !== null" item-right name="arrow-forward"></ion-icon>
+              <ion-icon [mode]="componentMode" *ngIf="item.nextSlideIndex !== null" item-right name="arrow-forward"></ion-icon>
             </ion-item>
 
           </ion-list>
@@ -103,7 +103,12 @@ import { Loading } from '../providers/loading/loading';
 })
 export class MultiLevelSelectDialogComponent {
 
+
+
   public slides: Slide[];
+
+  public selectDialogTitle: string;
+  public componentMode: string;
 
   public selectedItemId: number;
   public lookups: LookUpItem[];
@@ -116,6 +121,8 @@ export class MultiLevelSelectDialogComponent {
     this.selectedItemId = null;
     this.lookups = null;
     this.allowParent = null;
+    this.selectDialogTitle = null;
+    this.componentMode = null;
   }
   public ionViewDidLoad() {
     // Need to show a progress UI since it might take 1-2 secs to init the dialog if the lookups contains many items
@@ -191,6 +198,9 @@ export class MultiLevelSelectDialogComponent {
     slides.push(_slide);
 
     children.forEach((lookUpItem: LookUpItem, index: number) => {
+      if (!lookUpItem.children){
+        lookUpItem.children = [];
+      }
       const _slideItem: SlideItem = {
         id: lookUpItem.id, name: lookUpItem.name, parentId: lookUpItem.parentId, lookUpItem, slide: _slide, nextSlideIndex: lookUpItem.children.length > 0 ? undefined : null
       };
@@ -261,7 +271,8 @@ export class MultiLevelSelectDialogComponent {
   public itemSelected(item: SlideItem) {
     let selectedItem: NamedIdentity = null;
     if (item) {
-      selectedItem = { id: item.id, name: item.name };
+      // selectedItem = { id: item.id, name: item.name };
+      selectedItem = item.lookUpItem;
     }
     this.viewCtrl.dismiss(selectedItem);
   }

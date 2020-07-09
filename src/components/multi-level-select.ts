@@ -12,8 +12,8 @@ import { MultiLevelSelectDialogComponent } from './multi-level-select-dialog';
   selector: 'ryaa-multi-level-select',
   template: `
     <ion-toolbar (click)="open()">
-      <ion-title [ngClass]="{ 'multi-level-select-placeholder': !selectedItem }">{{ selectedItem ? selectedItem?.name : "Please Select" }}</ion-title>
-      <ion-buttons right>
+      <ion-title [ngClass]="{ 'multi-level-select-placeholder': !selectedItem }">{{ selectedItem ? selectedItem?.name : selectPlaceholder }}</ion-title>
+      <ion-buttons right [mode]="componentMode">
         <button *ngIf="selectedItem" ion-button icon-only (click)="reset($event)">
           <i class="fa fa-times" aria-hidden="true"></i>
         </button>
@@ -65,6 +65,10 @@ import { MultiLevelSelectDialogComponent } from './multi-level-select-dialog';
 export class MultiLevelSelectComponent implements ControlValueAccessor {
 
   public selectedItem: NamedIdentity;
+  @Input() public selectPlaceholder: 'Please Select';  // 选择框内容
+  @Input() public selectDialogTitle: 'Please Select';  // 选择弹窗标题内容
+  @Input() public componentMode: 'md';  // 平台模式
+
   @Input() public lookups: LookUpItem[];
   @Input() public allowParent: boolean;
 
@@ -88,7 +92,9 @@ export class MultiLevelSelectComponent implements ControlValueAccessor {
     const multiLevelSelectDialogComponent = this.modalCtrl.create(MultiLevelSelectDialogComponent, {
       selectedItemId: this.selectedItem ? this.selectedItem.id : null,
       lookups: this.lookups,
-      allowParent: this.allowParent
+      allowParent: this.allowParent,
+      selectDialogTitle: this.selectDialogTitle,
+      componentMode: this.componentMode
     });
     multiLevelSelectDialogComponent.onDidDismiss((selectedItem: NamedIdentity) => {
       if (selectedItem) {
