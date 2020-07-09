@@ -107,7 +107,7 @@ export class MultiLevelSelectDialogComponent {
 
   public slides: Slide[];
 
-  public selectDialogTitle: string;
+  public selectDialogTitle: string = 'Please Select';
 
   public selectedItemId: number;
   public lookups: LookUpItem[];
@@ -119,8 +119,6 @@ export class MultiLevelSelectDialogComponent {
     this.slides = null;
     this.selectedItemId = null;
     this.lookups = null;
-    this.allowParent = null;
-    this.selectDialogTitle = null;
   }
   public ionViewDidLoad() {
     // Need to show a progress UI since it might take 1-2 secs to init the dialog if the lookups contains many items
@@ -143,6 +141,9 @@ export class MultiLevelSelectDialogComponent {
 
     const allowParent = this.params.get('allowParent');
     this.allowParent = allowParent;
+
+    const _selectDialogTitle = this.params.get('selectDialogTitle');
+    this.selectDialogTitle = _selectDialogTitle;
 
     this.slides = this.buildInitialSlide(this.lookups);
 

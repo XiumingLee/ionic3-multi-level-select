@@ -2,7 +2,7 @@
     "name": "ionic3-multi-level-select-m",
     "author": "Alex Ryltsov && Xiuming Lee",
     "homepage": "https://github.com/XiumingLee/ionic3-multi-level-select",
-    "version": "2.0.1",
+    "version": "2.0.3",
     "description": "基于：https://github.com/ryaa/ionic3-multi-level-select做了些修改.",
     "license": "MIT",
     "main": "./dist/index.js",
